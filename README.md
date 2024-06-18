@@ -16,3 +16,8 @@ https://docs.render.com/deploy-flask
 - Deploy 設定都留預設即可
 - 複製左上角網址到Line Developer Webhook URL 更改（最後面要加上/callback)
 - e.g. https://xxxx.onrender.com/callback
+- 只要你的repo有commit change, render會自動 re-deploy
+
+## Render Env Variable
+- 建議把較機密的資訊如API Key, DB URL存到Render env varialbe而不是放在code裡
+- https://docs.render.com/configure-environment-variables
