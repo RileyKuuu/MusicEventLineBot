@@ -1,4 +1,5 @@
 import sqlite3
+import os
 
 from flask import Flask, request, abort
 
@@ -21,6 +22,9 @@ from linebot.v3.webhooks import (
 )
 
 app = Flask(__name__)
+
+channel_access_token = os.environ.get('channel_access_token')
+channel_secret = os.environ.get('channel_secret')
 
 configuration = Configuration(access_token=channel_access_token)
 handler = WebhookHandler(channel_secret)
