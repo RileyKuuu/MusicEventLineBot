@@ -22,8 +22,8 @@ from linebot.v3.webhooks import (
 
 app = Flask(__name__)
 
-configuration = Configuration(access_token='eqXGGquI/E54sMhto19FNaAE97rrfD0rVlolhznwbppUcpIfN4a0olxgaCbp37FFOvyq+GE832uP8NYc4pYdjp8AWUZxxzLxNRUTW/ymqiga3JzkJHvHhBqR63vxN0KZ0xlcY1wvtfed9pv5kFx62AdB04t89/1O/w1cDnyilFU=')
-handler = WebhookHandler('30601f22879d75ca249214e233764a7b')
+configuration = Configuration(access_token=channel_access_token)
+handler = WebhookHandler(channel_secret)
 
 # 所有從line來的事件都會先經過此，再轉為下方的handler做進一步的處理
 @app.route("/callback", methods=['POST'])
