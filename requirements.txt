@@ -1,0 +1,5 @@
+Flask==3.0.3
+line-bot-sdk==3.11.0
+requests==2.31.0
+urllib3==2.2.1
+gunicorn
