@@ -1,7 +1,7 @@
 import sqlite3
 import os
-from SQLite import find_concert
-import accupass
+# import accupass
+import pandas as pd
 
 from flask import Flask, request, abort
 
@@ -25,13 +25,26 @@ from linebot.v3.webhooks import (
 
 app = Flask(__name__)
 
+# SQLite connection setup
+conn = sqlite3.connect('scrapedata.db', check_same_thread=False)
+cursor = conn.cursor()
+
 channel_access_token = os.environ.get('channel_access_token')
 channel_secret = os.environ.get('channel_secret')
 
 configuration = Configuration(access_token=channel_access_token)
 handler = WebhookHandler(channel_secret)
 
-df = accupass.scrap_accupass()
+# df = accupass.scrap_accupass()
+
+
+# 先把SQL query def在這裏
+def find_concert(table_name, keyword):
+    df = pd.read_sql(f"SELECT * FROM {table_name} WHERE Name LIKE '%{keyword}%'", conn)
+    concert_name = df['Name'].to_string()
+    return concert_name
+
+
 
 # 所有從line來的事件都會先經過此，再轉為下方的handler做進一步的處理
 @app.route("/callback", methods=['POST'])
@@ -65,11 +78,11 @@ def handle_message(event):
                     messages=[TextMessage(text='yes this is test')]
                 ))
         elif message_input == 'rr':
-            # jazz_event = find_concert('ACCUPASS',message_input)
+            jazz_event = find_concert('ACCUPASS','爵士')
             line_bot_api.reply_message_with_http_info(
                 ReplyMessageRequest(
                     reply_token=event.reply_token,
-                    messages=[TextMessage(text=df['Name'].to_string())],
+                    messages=[TextMessage(text=jazz_event)],
                 ))
 
 if __name__ == "__main__":

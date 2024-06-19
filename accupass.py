@@ -10,6 +10,7 @@ import requests
 import time
 import json
 import pandas as pd
+import sqlite3
 
 def scrap_accupass():
 
@@ -109,3 +110,16 @@ def scrap_accupass():
     filter_df = accupass_df.query(f'Name.str.contains("|".join({filter_name}))', engine = 'python')
 
     return filter_df
+
+def store_to_db(df):
+    conn = sqlite3.connect('scrapedata.db')
+    df.to_sql('ACCUPASS', conn, if_exists='append', index=False)
+    conn.close()
+
+if __name__ == "__main__":
+
+    # Scrape data
+    data = scrap_accupass()
+
+    # Store data into SQLite database
+    store_to_db(data)
