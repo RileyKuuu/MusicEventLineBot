@@ -23,8 +23,8 @@ RUN wget -O /tmp/chromedriver.zip https://chromedriver.storage.googleapis.com/$(
 WORKDIR /app
 
 # Create and activate a virtual environment
-RUN python -m venv /opt/venv
-ENV PATH="/opt/venv/bin:$PATH"
+# RUN python -m venv /opt/venv
+# ENV PATH="/opt/venv/bin:$PATH"
 
 # Copy the requirements file and install dependencies
 COPY requirements.txt requirements.txt
