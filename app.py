@@ -1,5 +1,6 @@
 import sqlite3
 import os
+from SQLite import find_concert
 
 from flask import Flask, request, abort
 
@@ -60,11 +61,12 @@ def handle_message(event):
                     reply_token=event.reply_token,
                     messages=[TextMessage(text='yes this is test')]
                 ))
-        elif message_input == 'rr':
+        elif message_input == '爵士':
+            jazz_event = find_concert('ACCUPASS',message_input)
             line_bot_api.reply_message_with_http_info(
                 ReplyMessageRequest(
                     reply_token=event.reply_token,
-                    messages=[TextMessage(text='Riley')]
+                    messages=[TextMessage(text=jazz_event)],
                 )
         )
 
