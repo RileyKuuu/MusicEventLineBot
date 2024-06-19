@@ -1,6 +1,7 @@
 import sqlite3
 import os
 from SQLite import find_concert
+import accupass
 
 from flask import Flask, request, abort
 
@@ -29,6 +30,8 @@ channel_secret = os.environ.get('channel_secret')
 
 configuration = Configuration(access_token=channel_access_token)
 handler = WebhookHandler(channel_secret)
+
+df = accupass.scrap_accupass()
 
 # 所有從line來的事件都會先經過此，再轉為下方的handler做進一步的處理
 @app.route("/callback", methods=['POST'])
@@ -61,12 +64,12 @@ def handle_message(event):
                     reply_token=event.reply_token,
                     messages=[TextMessage(text='yes this is test')]
                 ))
-        elif message_input == '爵士':
-            jazz_event = find_concert('ACCUPASS',message_input)
+        elif message_input == 'rr':
+            # jazz_event = find_concert('ACCUPASS',message_input)
             line_bot_api.reply_message_with_http_info(
                 ReplyMessageRequest(
                     reply_token=event.reply_token,
-                    messages=[TextMessage(text=jazz_event)],
+                    messages=[TextMessage(text=df['Name'].to_string())],
                 ))
 
 if __name__ == "__main__":
