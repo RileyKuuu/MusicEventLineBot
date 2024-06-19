@@ -15,16 +15,16 @@ RUN apt-get update && apt-get install -y wget unzip net-tools lsof && \
     rm google-chrome-stable_current_amd64.deb && \
     apt-get clean
 
-# Install ChromeDriver
-RUN wget -O /tmp/chromedriver.zip https://chromedriver.storage.googleapis.com/$(curl -s https://chromedriver.storage.googleapis.com/LATEST_RELEASE)/chromedriver_linux64.zip \
-    && unzip /tmp/chromedriver.zip -d /usr/local/bin/ \
-    && rm /tmp/chromedriver.zip
+# # Install ChromeDriver
+# RUN wget -O /tmp/chromedriver.zip https://chromedriver.storage.googleapis.com/$(curl -s https://chromedriver.storage.googleapis.com/LATEST_RELEASE)/chromedriver_linux64.zip \
+#     && unzip /tmp/chromedriver.zip -d /usr/local/bin/ \
+#     && rm /tmp/chromedriver.zip
 
 WORKDIR /app
 
 # Create and activate a virtual environment
-# RUN python -m venv /opt/venv
-# ENV PATH="/opt/venv/bin:$PATH"
+RUN python -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
 
 # Copy the requirements file and install dependencies
 COPY requirements.txt requirements.txt
