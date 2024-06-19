@@ -36,7 +36,7 @@ COPY . .
 
 EXPOSE 5000
 
-# CMD ["python", "app.py"]
+CMD ["python", "app.py"]
 
 # Run network diagnostics before starting the app
-CMD ["sh", "-c", "netstat -tunlp && lsof -i -P -n | grep UDP && python app.py"]
+# CMD ["sh", "-c", "netstat -tunlp && lsof -i -P -n | grep UDP && python app.py"]
