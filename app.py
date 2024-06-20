@@ -23,6 +23,14 @@ from linebot.v3.webhooks import (
     TextMessageContent
 )
 
+from linebot.exceptions import InvalidSignatureError
+from linebot.models import (
+    MessageEvent, TextMessage, TextSendMessage, TemplateSendMessage,
+    ButtonsTemplate, DatetimePickerTemplateAction, PostbackEvent, PostbackTemplateAction,
+    MessageAction, QuickReply, QuickReplyButton
+)
+
+
 app = Flask(__name__)
 
 # SQLite connection setup
@@ -37,13 +45,13 @@ handler = WebhookHandler(channel_secret)
 
 # df = accupass.scrap_accupass()
 
-
+'''
 # 先把SQL query def在這裏
 def find_concert(table_name, keyword):
     df = pd.read_sql(f"SELECT * FROM {table_name} WHERE Name LIKE '%{keyword}%'", conn)
     concert_name = df['Name'].to_string()
     return concert_name
-
+'''
 
 
 # 所有從line來的事件都會先經過此，再轉為下方的handler做進一步的處理
@@ -71,18 +79,32 @@ def handle_message(event):
     message_input = event.message.text
     with ApiClient(configuration) as api_client:
         line_bot_api = MessagingApi(api_client)
-        if message_input == 'test':
+        if message_input == 'live music':
+            buttons_template = ButtonsTemplate(
+            title='選擇日期和時間',
+            text='請選擇',
+            actions=[
+                DatetimePickerTemplateAction(
+                    label='選擇日期',
+                    data='action=sel_date',
+                    mode='date'
+                ),
+                PostbackTemplateAction(
+                    label='不指定',
+                    data='action=no_date'
+                )
+            ]
+            )
+            template_message = TemplateSendMessage(
+                alt_text='選擇日期和時間',
+                template=buttons_template
+            )
+            line_bot_api.reply_message(event.reply_token, buttons_template)
+        elif message_input == 'test':
             line_bot_api.reply_message_with_http_info(
                 ReplyMessageRequest(
                     reply_token=event.reply_token,
-                    messages=[TextMessage(text='yes this is test')]
-                ))
-        elif message_input == 'rr':
-            jazz_event = find_concert('ACCUPASS','爵士')
-            line_bot_api.reply_message_with_http_info(
-                ReplyMessageRequest(
-                    reply_token=event.reply_token,
-                    messages=[TextMessage(text=jazz_event)],
+                    messages=[TextMessage(text='test')],
                 ))
 
 if __name__ == "__main__":
