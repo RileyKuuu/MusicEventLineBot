@@ -100,7 +100,7 @@ def scrap_accupass():
             artists.append(guests_per_event)
 
 
-    accupass_df = pd.DataFrame(list(zip(event_name,event_user_time,venue,address,artists,img_link,event_link,start_time,end_time)), columns = ['Name', 'Time', 'Venue', 'Address', 'Artists', 'ImageURL', 'PageURL', 'StartTime', 'EndTime'])
+    accupass_df = pd.DataFrame(list(zip(event_name,event_user_time,venue,address,artists,img_link,event_link,start_time,end_time)), columns = ['EventName', 'Time', 'Venue', 'Address', 'Artists', 'ImageURL', 'PageURL', 'StartTime', 'EndTime'])
     # print(accupass_df)
 
     # 篩選活動名稱
