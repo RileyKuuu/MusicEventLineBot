@@ -35,6 +35,7 @@ channel_secret = os.environ.get('channel_secret')
 configuration = Configuration(access_token=channel_access_token)
 handler = WebhookHandler(channel_secret)
 
+
 create_table()
 
 # 所有從line來的事件都會先經過此，再轉為下方的handler做進一步的處理
@@ -63,16 +64,22 @@ def handle_message(event):
     with ApiClient(configuration) as api_client:
         line_bot_api = MessagingApi(api_client)
         if message_input == 'test':
-            line_bot_api.reply_message(event.reply_token,TextSendMessage(text='test'))
-            # line_bot_api.reply_message_with_http_info(
-            #     ReplyMessageRequest(
-            #         reply_token=event.reply_token,
-            #         messages=[TextMessage(text='test')],
-            #     ))
+            # line_bot_api.reply_message(event.reply_token,TextSendMessage(text='test'))
+            line_bot_api.reply_message_with_http_info(
+                ReplyMessageRequest(
+                    reply_token=event.reply_token,
+                    messages=[TextMessage(text='test')],
+                ))
         elif message_input == 'music':
             jazz = get_data('爵士')
-            line_bot_api.reply_message(event.reply_token,TextSendMessage(text=jazz))
+            # line_bot_api.reply_message(event.reply_token,TextSendMessage(text=jazz))
+            line_bot_api.reply_message_with_http_info(
+                ReplyMessageRequest(
+                    reply_token=event.reply_token,
+                    messages=[TextMessage(text=jazz)],
+                ))
 
+# 當py檔案被直接執行時，__name__變數會是__main__，因此當此條件成立時，代表程式被當作主程式執行，而不是被當作模組引用。
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
     app.run(debug=True, host='0.0.0.0', port=port)
