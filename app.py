@@ -21,8 +21,6 @@ from linebot.v3.webhooks import (
     MessageEvent,
     TextMessageContent
 )
-
-from linebot.exceptions import InvalidSignatureError
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage, TemplateSendMessage,
     ButtonsTemplate, DatetimePickerTemplateAction, PostbackEvent, PostbackTemplateAction,
@@ -37,6 +35,7 @@ channel_secret = os.environ.get('channel_secret')
 configuration = Configuration(access_token=channel_access_token)
 handler = WebhookHandler(channel_secret)
 
+create_table()
 
 # 所有從line來的事件都會先經過此，再轉為下方的handler做進一步的處理
 @app.route("/callback", methods=['POST'])
@@ -64,7 +63,7 @@ def handle_message(event):
     with ApiClient(configuration) as api_client:
         line_bot_api = MessagingApi(api_client)
         if message_input == 'test':
-            line_bot_api.reply_message(event.reply_token,'test')
+            line_bot_api.reply_message(event.reply_token,TextSendMessage(text='test'))
             # line_bot_api.reply_message_with_http_info(
             #     ReplyMessageRequest(
             #         reply_token=event.reply_token,
@@ -72,7 +71,7 @@ def handle_message(event):
             #     ))
         elif message_input == 'music':
             jazz = get_data('爵士')
-            line_bot_api.reply_message(event.reply_token,jazz)
+            line_bot_api.reply_message(event.reply_token,TextSendMessage(text=jazz))
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
