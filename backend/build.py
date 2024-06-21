@@ -44,7 +44,7 @@ def get_db():
 def get_data(keyword):
      db = get_db()
      cursor = db.cursor()
-     cursor.execute(f"SELECT * FROM 'ACCUPASS' WHERE Name LIKE '%{keyword}%'")
+     cursor.execute(f"SELECT * FROM 'ACCUPASS' WHERE EventName LIKE '%{keyword}%'")
      data = cursor.fetchall()
      return str(data)
 
