@@ -100,14 +100,14 @@ def scrap_accupass():
             artists.append(guests_per_event)
 
 
-    accupass_df = pd.DataFrame(list(zip(event_name,event_user_time,venue,address,artists,img_link,event_link,start_time,end_time)), columns = ['EventName', 'Time', 'Venue', 'Address', 'Artists', 'ImageURL', 'PageURL', 'StartTime', 'EndTime'])
+    accupass_df = pd.DataFrame(list(zip(event_name,event_user_time,venue,address,artists,img_link,event_link,start_time,end_time)), columns = ['EventName', 'EventTime', 'Venue', 'Address', 'Artists', 'ImageURL', 'PageURL', 'StartTime', 'EndTime'])
     # print(accupass_df)
 
     # 篩選活動名稱
     filter_name = ['演唱會','音樂會','音樂之夜','巡迴','獨奏會','演出','派對']
 
     # "|" means OR in pandas
-    filter_df = accupass_df.query(f'Name.str.contains("|".join({filter_name}))', engine = 'python')
+    filter_df = accupass_df.query(f'EventName.str.contains("|".join({filter_name}))', engine = 'python')
 
     return filter_df
 
