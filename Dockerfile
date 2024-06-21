@@ -1,5 +1,3 @@
-# Stage 1: Build environment for scraping
-
 FROM python:3.11-slim
 
 # Install dependencies
@@ -25,23 +23,9 @@ RUN python -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
 # Copy the requirements file and install dependencies
-COPY requirements.txt requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy the scraping script and its dependencies
-COPY accupass.py .
-
-COPY app.py .
-
-# Example: Initialize SQLite database schema (if needed)
-RUN sqlite3 scrapedata.db < init.sql
-
-# Copy the rest of the application
 COPY . .
-
-# Example: Initialize SQLite database schema (if needed)
-RUN sqlite3 scrapedata.db < init.sql
+RUN pip install --no-cache-dir -r requirements.txt
 
 EXPOSE 5000
 
-CMD ["bash", "-c", "python accupass.py & python app.py"]
+CMD ["python", "app.py"]
