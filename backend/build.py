@@ -6,6 +6,7 @@ from flask import g
 SQLITE_DB_PATH = 'scraped.db'
 SQLITE_DB_SCHEMA = 'init.sql'
 
+'''
 # 取得DB連線
 def get_db():
     db = getattr(g, '_database', None)
@@ -14,6 +15,7 @@ def get_db():
         # Enable foreign key check
         db.execute("PRAGMA foreign_keys = ON")
     return db
+'''
 
 # 建立資料庫table及儲存爬蟲資訊
 def create_table():
@@ -22,7 +24,7 @@ def create_table():
         create_db_sql = f.read()
 
     # DB 連線
-    conn = get_db()
+    conn = sqlite3.connect(SQLITE_DB_PATH)
 
     # 根據DB Schema建立Table
     conn.executescript(create_db_sql)
@@ -43,7 +45,7 @@ def create_table():
 
 # 讀取資料庫資料
 def get_data(keyword):
-     db = get_db()
+     db = sqlite3.connect(SQLITE_DB_PATH)
      cursor = db.cursor()
      cursor.execute(f"SELECT * FROM 'ACCUPASS' WHERE EventName LIKE '%{keyword}%'")
      data = cursor.fetchall()
