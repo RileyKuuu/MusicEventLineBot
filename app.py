@@ -4,17 +4,10 @@ import pandas as pd
 from flask import Flask, request, abort
 from backend.build import *
 
-from linebot.v3 import WebhookHandler
-from linebot.v3.messaging import (
-    Configuration,
-    ApiClient,
-    MessagingApi,
-    ReplyMessageRequest,
-    TextMessage
-)
-from linebot.v3.exceptions import InvalidSignatureError
-from linebot.v3.webhooks import (
-    MessageEvent, TextMessage, TextMessageContent, TextSendMessage, TemplateSendMessage,
+from linebot import LineBotApi, WebhookHandler
+from linebot.exceptions import InvalidSignatureError
+from linebot.models import (
+    MessageEvent, TextMessage, TextSendMessage, TemplateSendMessage,
     ButtonsTemplate, DatetimePickerTemplateAction, PostbackEvent,
     PostbackTemplateAction, MessageAction, QuickReply, QuickReplyButton
 )
@@ -24,7 +17,7 @@ app = Flask(__name__)
 channel_access_token = os.environ.get('channel_access_token')
 channel_secret = os.environ.get('channel_secret')
 
-line_bot_api = MessagingApi(channel_access_token)
+line_bot_api = LineBotApi(channel_access_token)
 handler = WebhookHandler(channel_secret)
 
 create_table()
