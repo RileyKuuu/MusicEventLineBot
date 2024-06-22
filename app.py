@@ -53,7 +53,7 @@ def handle_message(event):
     if message_input == 'test':
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text='test'))
     elif message_input == 'music':
-        jazz = get_data('爵士')
+        jazz = get_data('林綾')
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=jazz))
 
 
