@@ -50,7 +50,7 @@ def create_table():
 def get_data(keyword):
      db = sqlite3.connect(SQLITE_DB_PATH)
      cursor = db.cursor()
-     cursor.execute(f"SELECT * FROM 'ACCUPASS' WHERE EventName LIKE '%{keyword}%'")
+     cursor.execute(f"SELECT EventName FROM 'ACCUPASS' WHERE EventName LIKE '%{keyword}%'")
      data = cursor.fetchall()
      return str(data)
 
