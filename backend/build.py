@@ -1,10 +1,13 @@
 import sqlite3
 import pandas as pd
-from accupass import scrap_accupass
-from flask import g
 
-SQLITE_DB_PATH = 'scraped.db'
-SQLITE_DB_SCHEMA = 'init.sql'
+from flask import g
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from accupass import scrap_accupass
+SQLITE_DB_PATH = './backend/scraped.db'
+SQLITE_DB_SCHEMA = './backend/init.sql'
 
 '''
 # 取得DB連線
